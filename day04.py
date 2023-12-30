@@ -11,6 +11,7 @@ from collection import Collection
 def proc_data(data: Collection) -> dict:
     return data.map(lambda s: Card(s))
 
+
 class Card:
     id: str = None
     winner: str = None

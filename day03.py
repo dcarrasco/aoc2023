@@ -40,7 +40,7 @@ def part1():
     sum_part_numbers = 0
     for number in data["numbers"]:
         pos_min = (number[1][0] - 1, number[1][1] - 1)
-        pos_max = (number[1][0] + 1, number[1][1] + len(str(number[0])) - 1  + 1)
+        pos_max = (number[1][0] + 1, number[1][1] + len(str(number[0])) - 1 + 1)
         has_adjacent = False
         for symbol in data["symbols"]:
             if symbol[1][0] >= pos_min[0] and symbol[1][0] <= pos_max[0] and symbol[1][1] >= pos_min[1] and symbol[1][1] <= pos_max[1]:

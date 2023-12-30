@@ -3,9 +3,9 @@ AOC Advent of code 2023
 Day 07
 """
 
+from dataclasses import dataclass
 from aoc import get_data
 from collection import Collection
-from dataclasses import dataclass
 
 
 @dataclass
@@ -22,8 +22,9 @@ class Hand:
 
     def get_type(self):
         cards_dict = self.cards_dict()
-        max_q = max([cards_dict[k] for k in cards_dict])
+        max_q = max([v for k, v in cards_dict.items()])
         # print(self.cards, cards_dict, max_q)
+        hand_type = ''
         if len(cards_dict) == 1:
             hand_type = "5 five of a kind"
         elif len(cards_dict) == 2:
@@ -58,10 +59,16 @@ class Hand:
         }
 
     def card_rank(self):
-        return {'2': '01', '3': '02', '4': '03', '5': '04', '6': '05', '7': '06', '8': '07', '9': '08', 'T': '09', 'J': '10', 'Q': '11', 'K': '12', 'A': '13'}
+        return {
+            '2': '01', '3': '02', '4': '03', '5': '04', '6': '05', '7': '06', '8': '07',
+            '9': '08', 'T': '09', 'J': '10', 'Q': '11', 'K': '12', 'A': '13'
+        }
 
     def card_rank2(self):
-        return {'2': '01', '3': '02', '4': '03', '5': '04', '6': '05', '7': '06', '8': '07', '9': '08', 'T': '09', 'J': '00', 'Q': '11', 'K': '12', 'A': '13'}
+        return {
+            '2': '01', '3': '02', '4': '03', '5': '04', '6': '05', '7': '06', '8': '07',
+            '9': '08', 'T': '09', 'J': '00', 'Q': '11', 'K': '12', 'A': '13'
+        }
 
     def rank(self):
         return self.type_rank()[self.get_type()] + "".join([self.card_rank()[c] for c in self.cards])
@@ -82,7 +89,7 @@ class Hand:
                     card_dict[c] = 0
                 card_dict[c] += 1
             # print(card_dict)
-            max_repeat = max([c[1] for c in card_dict.items()])
+            max_repeat = max([v for k, v in card_dict.items()])
             max_card = [(c, self.card_rank2()[c]) for c in card_dict if card_dict[c] == max_repeat]
             max_card = sorted(max_card, key=lambda c: c[1])[-1][0]
             # print(max_repeat, max_card)
@@ -92,10 +99,7 @@ class Hand:
         return new_cards
 
 
-
-
-
-def proc_data(data: Collection) -> dict:
+def proc_data(data: Collection) -> 'Collection':
     return data.filter_blanks() \
         .map(lambda lin: {"hand": Hand(lin.split(" ")[0]), "bid": int(lin.split(" ")[1])})
 
@@ -110,7 +114,7 @@ def part1():
         print(a)
         print(a["hand"].get_type())
     data.map(lambda g: g["hand"].rank()).dump()
-    ordered_hands = sorted(data.all(), key = lambda h: h["hand"].rank())
+    ordered_hands = sorted(data.all(), key=lambda h: h["hand"].rank())
     total = [(hand["bid"], i+1) for i, hand in enumerate(ordered_hands)]
     print(Collection(total).map(lambda e: e[0]*e[1]).sum())
 
@@ -119,9 +123,9 @@ def part2():
     """
     Segunda parte
     """
-    data = get_data("day07.txt").process(proc_data)
+    data = get_data("day07-test.txt").process(proc_data)
     # print(data)
-    ordered_hands = sorted(data.all(), key = lambda h: h["hand"].rank2())
+    ordered_hands = sorted(data.all(), key=lambda h: h["hand"].rank2())
     print(ordered_hands)
     total = [(hand["bid"], i+1) for i, hand in enumerate(ordered_hands)]
     print(Collection(total).map(lambda e: e[0]*e[1]).sum())

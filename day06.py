@@ -3,13 +3,13 @@ AOC Advent of code 2023
 Day 06
 """
 
+# from dataclasses import dataclass
+from math import sqrt
 from aoc import get_data
 from collection import Collection
-from dataclasses import dataclass
-from math import sqrt
 
 
-def proc_data(data: Collection) -> dict:
+def proc_data(data: Collection) -> list:
     data2 = data.filter_blanks() \
         .map(lambda lin: lin.split(":")[1].strip().split(" ")) \
         .map(lambda lst: [int(e) for e in lst if e != ""])
@@ -23,14 +23,13 @@ def proc_data2(data: Collection):
         .all()
 
 
-
 def part1():
     """
     Primera parte
     """
     data = get_data("day06-test.txt").process(proc_data)
     print(data)
-    data2 = [[(i,i*(race[0]-i)) for i in range(race[0]+1) if i*(race[0]-i) > race[1]] for race in data]
+    data2 = [[(i, i*(race[0]-i)) for i in range(race[0]+1) if i*(race[0]-i) > race[1]] for race in data]
     print(data2)
     print(Collection([len(race) for race in data2]).mult())
 
