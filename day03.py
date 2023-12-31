@@ -43,7 +43,8 @@ def part1():
         pos_max = (number[1][0] + 1, number[1][1] + len(str(number[0])) - 1 + 1)
         has_adjacent = False
         for symbol in data["symbols"]:
-            if symbol[1][0] >= pos_min[0] and symbol[1][0] <= pos_max[0] and symbol[1][1] >= pos_min[1] and symbol[1][1] <= pos_max[1]:
+            if symbol[1][0] >= pos_min[0] and symbol[1][0] <= pos_max[0] \
+                    and symbol[1][1] >= pos_min[1] and symbol[1][1] <= pos_max[1]:
                 has_adjacent = True
         if has_adjacent:
             sum_part_numbers += int(number[0])
@@ -63,16 +64,17 @@ def part2():
         adjacents = []
         for n in data["numbers"]:
             pos_min = (n[1][0] - 1, n[1][1] - 1)
-            pos_max = (n[1][0] + 1, n[1][1] + len(str(n[0])) - 1  + 1)
-            if g[1][0] >= pos_min[0] and g[1][0] <= pos_max[0] and g[1][1] >= pos_min[1] and g[1][1] <= pos_max[1]:
+            pos_max = (n[1][0] + 1, n[1][1] + len(str(n[0])) - 1 + 1)
+            if g[1][0] >= pos_min[0] and g[1][0] <= pos_max[0] and g[1][1] >= pos_min[1] \
+                    and g[1][1] <= pos_max[1]:
                 adjacents.append(n)
         gears[i] = (g[0], g[1], adjacents)
 
     gear_ratio = Collection(gears) \
         .filter(lambda g: len(g[2]) == 2) \
         .map(lambda g: (int(g[2][0][0]), int(g[2][1][0]))) \
-        .map(lambda g: g[0] * g[1]) 
-                
+        .map(lambda g: g[0] * g[1])
+
     print(gear_ratio.sum())
 
 

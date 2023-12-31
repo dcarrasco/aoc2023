@@ -56,7 +56,9 @@ class Gameset:
             self.add_color(d.strip().split(" "))
 
     def check(self, pack):
-        return int(self.red) <= int(pack.red) and int(self.green) <= int(pack.green) and int(self.blue) <= int(pack.blue)
+        return int(self.red) <= int(pack.red) \
+            and int(self.green) <= int(pack.green) \
+            and int(self.blue) <= int(pack.blue)
 
     def add_color(self, color_array):
         if color_array[1] == "red":

@@ -9,7 +9,6 @@ from collection import Collection
 
 
 def proc_data(data: Collection) -> dict:
-    in_map = False
     n_map = last_map = -1
     maps = []
     for i, line in data.enumerate():
@@ -18,7 +17,6 @@ def proc_data(data: Collection) -> dict:
             # print(seeds)
         else:
             if line == "":
-                in_map = False
                 n_map += 1
             else:
                 if n_map != last_map:
@@ -30,6 +28,7 @@ def proc_data(data: Collection) -> dict:
 
     return {"seeds": seeds, "almanaq": Almanaq(maps)}
 
+
 class Almanaq:
     maps: None
 
@@ -39,7 +38,7 @@ class Almanaq:
         return number
 
     def convert_range(self, range):
-        if type(range) == tuple:
+        if type(range) is tuple:
             range = [(range[0], range[0] + range[1] - 1, 0)]
         for m in self.maps:
             # print(f"almanaq {m}")
@@ -70,7 +69,7 @@ class Map:
 
     def add_rule(self, rule):
         self.rules.append(Rule([int(r) for r in rule.split(" ")]))
-        
+
     def convert(self, number):
         new_number = number
         for r in self.rules:
@@ -80,7 +79,7 @@ class Map:
 
     def convert_range(self, range):
         # print(f"{type(range)}")
-        if type(range) == tuple:
+        if type(range) is tuple:
             range = [range]
         # print(f"\tmap range: {range}")
         for r in self.rules:
@@ -123,7 +122,6 @@ class Rule:
         rule_max = self.source + self.rule_range - 1
         range_min = range[0]
         range_max = range[1]
-        # print(f"\t\trule : range", (range_min, range_max), "rule", (rule_min, rule_max), "d", delta)
         rule_ranges = []
         if rule_max < range_min or rule_min > range_max:
             return [range]
@@ -142,7 +140,6 @@ class Rule:
                 else:
                     rule_ranges.append((range_min, range_max, delta_orig + delta))
         return rule_ranges
-
 
     def __init__(self, datos):
         self.dest = int(datos[0])
@@ -174,10 +171,9 @@ def part2():
         seeds.append((data["seeds"][i], data["seeds"][i + 1]))
         i += 2
     print(seeds)
-    min = (0, None)
     new_seeds = []
     for s in seeds:
-        new_seeds += data["almanaq"].convert_range(s) 
+        new_seeds += data["almanaq"].convert_range(s)
     print(new_seeds)
     for ns in new_seeds:
         print(ns)

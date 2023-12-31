@@ -3,7 +3,7 @@ AOC Advent of code 2023
 Day 08
 """
 
-from dataclasses import dataclass
+# from dataclasses import dataclass
 from aoc import get_data
 from collection import Collection
 
@@ -52,20 +52,12 @@ def part1():
     print(f"Found at movement {count}")
 
 
-def lcm(x,y):
-    return (x*y)//gcd(x,y)
-    # greater = x if x > y else y
+def lcm(x, y):
+    return (x * y) // gcd(x, y)
 
-    # found = False
-    # while not found:
-    #     if (greater % x == 0) and (greater % y == 0):
-    #         found = True
-    #     else:
-    #         greater += 1
-    # return greater
 
-def gcd(x,y):
-    while(y):
+def gcd(x, y):
+    while (y):
         x, y = y, x % y
     return x
 
@@ -101,7 +93,7 @@ def part2():
                 finished[s] = count
                 found = True
                 print(s, pos, i, count, len(data["ins"]), finished[s])
-                
+
             i += 1
 
     print(finished)
@@ -117,8 +109,6 @@ def part2():
         least = lcm(init, s)
         print(init, s, least)
         init = least
-
-
 
 
 print('================================================')

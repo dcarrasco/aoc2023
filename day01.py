@@ -25,7 +25,7 @@ def filter_numbers2(s: str):
     print(digits)
     return digits
 
-    print (orig, filter_numbers(s))
+    print(orig, filter_numbers(s))
     return filter_numbers(s)
 
 
@@ -43,7 +43,6 @@ def part1():
     print(data)
 
 
-
 def part2():
     """
     Segunda parte
@@ -51,6 +50,7 @@ def part2():
     data = get_data("day01.txt").filter_blanks()
     data = sum_list(data.map(lambda x: filter_numbers2(x)))
     print(data)
+
 
 print('================================================')
 # part1()

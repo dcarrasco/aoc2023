@@ -29,7 +29,10 @@ def part1():
     """
     data = get_data("day06-test.txt").process(proc_data)
     print(data)
-    data2 = [[(i, i*(race[0]-i)) for i in range(race[0]+1) if i*(race[0]-i) > race[1]] for race in data]
+    data2 = [
+        [(i, i*(race[0]-i)) for i in range(race[0]+1) if i*(race[0]-i) > race[1]]
+        for race in data
+    ]
     print(data2)
     print(Collection([len(race) for race in data2]).mult())
 

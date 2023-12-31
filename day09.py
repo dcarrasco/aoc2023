@@ -3,7 +3,7 @@ AOC Advent of code 2023
 Day 09
 """
 
-from dataclasses import dataclass
+# from dataclasses import dataclass
 from aoc import get_data
 from collection import Collection
 
