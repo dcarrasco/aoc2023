@@ -10,7 +10,7 @@ from collection import Collection
 Pos = tuple[int, int]
 
 
-def proc_data(data: Collection):
+def proc_data(data: Collection) -> 'Collection':
     """
     Funcion para procesar archivo de input
     """
@@ -22,8 +22,8 @@ class Mapa:
     mapa: list[str]
     dist: list[list[int]]
 
-    def __init__(self, mapa):
-        self.mapa = mapa
+    def __init__(self, mapa: 'Collection'):
+        self.mapa = mapa.all()
         self.dist = []
         for _ in range(len(self.mapa)):
             tmp_dist = []
@@ -42,10 +42,10 @@ class Mapa:
     def get_sign(self, pos: Pos) -> str:
         return self.mapa[pos[0]][pos[1]]
 
-    def set_distance(self, pos: Pos, distance):
+    def set_distance(self, pos: Pos, distance: int) -> None:
         self.dist[pos[0]][pos[1]] = distance
 
-    def get_distance(self, pos: Pos):
+    def get_distance(self, pos: Pos) -> int:
         return self.dist[pos[0]][pos[1]]
 
     def neighbors(self, pos: Pos) -> list[Pos]:
@@ -92,7 +92,7 @@ class Mapa:
         }
         return conn_dict[sign]
 
-    def max_dist(self):
+    def max_dist(self) -> int:
         maximo = 0
         for d in self.dist:
             for i in d:
@@ -100,7 +100,7 @@ class Mapa:
                     maximo = i
         return maximo
 
-    def walk(self):
+    def walk(self) -> None:
         init = self.find_init()
         # print(f"init: {init}")
         self.set_distance(init, 0)
@@ -131,26 +131,28 @@ class Mapa:
         return rep
 
 
-def part1():
+def part1(use_test_data: bool) -> None:
     """
     Primera parte
     """
-    data = get_data("day10-test.txt").process(proc_data).all()
+    data = get_data(test=use_test_data).process(proc_data)
     mapa = Mapa(data)
     mapa.walk()
-    print(mapa.max_dist())
     print(mapa)
+    print(mapa.max_dist())
 
 
-def part2():
+def part2(use_test_data: bool) -> None:
     """
     Segunda parte
     """
-    data = get_data("day09.txt").process(proc_data)
+    data = get_data(test=use_test_data).process(proc_data)
     print(data)
 
 
-print('================================================')
-part1()
-print('================================================')
-# part2()
+if __name__ == "__main__":
+    is_test = True
+    print('================================================')
+    part1(is_test)
+    print('================================================')
+    # part2(is_test)

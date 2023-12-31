@@ -82,7 +82,7 @@ class Collection:
         return self
 
     def __str__(self) -> str:
-        return f"C{str(self.list)}"
+        return f"Collection{str(self.list)}"
 
     def __iter__(self) -> Iterator[Any]:
         return iter(self.list)

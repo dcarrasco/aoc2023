@@ -3,9 +3,9 @@ AOC Advent of code 2023
 Day 03
 """
 
+# from dataclasses import dataclass
 from aoc import get_data
 from collection import Collection
-# from dataclasses import dataclass
 
 
 def proc_data(data: Collection) -> dict:

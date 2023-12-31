@@ -23,7 +23,7 @@ class Hand:
     def get_type(self):
         cards_dict = self.cards_dict()
         max_q = max([v for k, v in cards_dict.items()])
-        # print(self.cards, cards_dict, max_q)
+        # print(self.cards, cards_dict, max_q, cards_dict.items())
         hand_type = ''
         if len(cards_dict) == 1:
             hand_type = "5 five of a kind"
@@ -104,34 +104,36 @@ def proc_data(data: Collection) -> 'Collection':
         .map(lambda lin: {"hand": Hand(lin.split(" ")[0]), "bid": int(lin.split(" ")[1])})
 
 
-def part1():
+def part1(is_test: bool):
     """
     Primera parte
     """
-    data = get_data("day07.txt").process(proc_data)
+    data = get_data(test=is_test).process(proc_data)
     print(data)
-    for a in data:
-        print(a)
-        print(a["hand"].get_type())
-    data.map(lambda g: g["hand"].rank()).dump()
+    # for a in data:
+    #     print(a)
+    #     print(a["hand"].get_type())
+    data.map(lambda g: g["hand"].rank())
     ordered_hands = sorted(data.all(), key=lambda h: h["hand"].rank())
-    total = [(hand["bid"], i+1) for i, hand in enumerate(ordered_hands)]
-    print(Collection(total).map(lambda e: e[0]*e[1]).sum())
+    total = [(hand["bid"], i + 1) for i, hand in enumerate(ordered_hands)]
+    print(Collection(total).map(lambda e: e[0] * e[1]).sum())
 
 
-def part2():
+def part2(is_test: bool):
     """
     Segunda parte
     """
-    data = get_data("day07-test.txt").process(proc_data)
-    # print(data)
+    data = get_data(test=is_test).process(proc_data)
+    print(data)
     ordered_hands = sorted(data.all(), key=lambda h: h["hand"].rank2())
-    print(ordered_hands)
-    total = [(hand["bid"], i+1) for i, hand in enumerate(ordered_hands)]
-    print(Collection(total).map(lambda e: e[0]*e[1]).sum())
+    # print(ordered_hands)
+    total = [(hand["bid"], i + 1) for i, hand in enumerate(ordered_hands)]
+    print(Collection(total).map(lambda e: e[0] * e[1]).sum())
 
 
-print('================================================')
-# part1()
-print('================================================')
-part2()
+if __name__ == "__main__":
+    is_test = True
+    print('================================================')
+    part1(is_test)
+    print('================================================')
+    part2(is_test)
