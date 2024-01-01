@@ -1,0 +1,11 @@
+#! /bin/bash
+day=$(ls day*.py | sort | tail -1 | cut -d "." -f 1)
+
+data=$day.txt
+
+if [ "$1" = "--test" ]; then
+    data=$day-test.txt
+fi
+
+python3 $day.py $data
+
