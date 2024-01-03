@@ -47,7 +47,7 @@ class Mapa:
             if type(linea) is str:
                 repr += f"{linea}\n"
             elif type(linea) is list:
-                repr += "".join([str(elem) for elem in linea]) + "\n"
+                repr += "".join([str(elem) + " " for elem in linea]) + "\n"
         return repr
 
     def __iter__(self) -> Iterator[Any]:
