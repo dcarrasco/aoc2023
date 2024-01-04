@@ -13,7 +13,7 @@ class Mapa:
     def get_linea(self, nlin: int) -> str:
         return self.mapa[nlin]
 
-    def set_value(self, pos: tuple[int, int], value: str) -> None:
+    def set_value(self, pos: tuple[int, int], value: Any) -> None:
         self.mapa[pos[1]][pos[0]] = value
 
     def get_value(self, pos: tuple[int, int]) -> str:

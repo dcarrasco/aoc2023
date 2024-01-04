@@ -26,13 +26,77 @@ SOUTH: Dir = (0, -1)
 
 
 class LavaMap(Mapa):
+    rows: int
+    cols: int
+
+    def __init__(self, mapa: list) -> None:
+        super().__init__(mapa)
+        self.cols = self.ancho()
+        self.rows = self.alto()
+
+    def dijkstra(self, init: Pos, target: Pos) -> int:
+        INF = 1000000000
+
+        heat_loss = Mapa([[INF for i in range(self.cols)] for j in range(self.rows)])
+        heat_path = Mapa([[[] for i in range(self.cols)] for j in range(self.rows)])
+
+        queue = set()
+        for j in range(self.rows):
+            for i in range(self.cols):
+                queue.add((i, j))
+        # print(queue)
+
+        heat_loss.set_value(init, int(self.get_value(init)))
+        heat_path.set_value(init, [init])
+
+        while queue:
+            position = self.get_min_heat_loss(queue, heat_loss, INF)
+            print(position, len(queue))
+            queue.remove(position)
+            print(self.get_neighbors(position, queue))
+            for neighbor, direction in self.get_neighbors(position, queue):
+                # print(neighbor, direction)
+                loss = heat_loss.get_value(self.add_position(neighbor, (-direction[0], -direction[1]))) + int(self.get_value(neighbor))
+                print(neighbor, direction, loss, heat_loss.get_value(neighbor))
+                if loss < heat_loss.get_value(neighbor):
+                    heat_loss.set_value(neighbor, loss)
+                    heat_path.set_value(neighbor, heat_path.get_value(position) + [neighbor])
+                    # print(heat_path)
+
+        # print(heat_loss, heat_path, queue)
+        print(heat_path.get_value(target))
+        self.print_path(heat_path.get_value(target))
+        return heat_loss.get_value(target)
+
+    def get_min_heat_loss(self, queue: set[Pos], heat_loss: Mapa, INF: int) -> Pos:
+        minium = INF
+        min_position = (-1, -1)
+        for position in queue:
+            if int(heat_loss.get_value(position)) < minium:
+                minium = int(heat_loss.get_value(position))
+                min_position = position
+
+        return min_position
+
+    def get_neighbors(self, position: Pos, queue: set[Pos]) -> list[tuple[Pos, Dir]]:
+        dirs = ((1, 0), (-1, 0), (0, 1), (0, -1))
+
+        neighbors = []
+        for d in dirs:
+            new_pos = position
+            for _ in range(3):
+                new_pos = self.add_position(new_pos, d)
+                if self.en_mapa(new_pos) and new_pos in queue:
+                    neighbors.append((new_pos, d))
+
+        return neighbors
+
     def optim2(self, init: Pos, target: Pos) -> int:
         pq: list[State] = [(0, init, EAST), (0, init, SOUTH)]
         visited = set()
 
         while pq:
             heat_loss, position, direction = heappop(pq)
-            print(position)
 
             if (position, direction) in visited:
                 continue
@@ -105,6 +169,7 @@ def part1(filename: str) -> None:
     print(data)
     # print(data.optim((data.ancho() - 1, data.alto() - 1)))
     print(data.optim2((0, 0), (data.ancho() - 1, data.alto() - 1)))
+    print(data.dijkstra((0, 0), (data.cols - 1, data.rows - 1)))
 
 
 def part2(filename: str) -> None:
