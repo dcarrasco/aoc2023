@@ -19,9 +19,13 @@ class Mapa:
         self.mapa[pos.y][pos.x] = value
 
     def get_value(self, pos: "Pos") -> str:
-        if 0 <= pos.x < self.ancho() and 0 <= pos.y < self.alto():
+        if self.en_mapa(pos):
             return self.mapa[pos.y][pos.x]
+
         return ""
+
+    def en_mapa(self, pos: "Pos") -> bool:
+        return 0 <= pos.x < self.cols and 0 <= pos.y < self.rows
 
     def get_columna(self, ncol: int) -> str:
         col = ""
